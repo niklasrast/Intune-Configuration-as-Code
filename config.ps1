@@ -40,10 +40,10 @@ $currentMSGraphModule = Get-InstalledModule | Where-Object {$_.Name -eq "Microso
 
 If ($latestMSGraphModule.version -gt $currentMSGraphModule.version) {
     try {Update-Module -Name Microsoft.Graph -RequiredVersion $latestMSGraphModule.version -AllowPrerelease
-         Write-host "Microsoft Graph PowerShell module updated successfully to" $latestMSGraphModule.Version -ForegroundColor Green}
-    catch {Write-Host "Unable to update Microsoft Graph PowerShell module" -ForegroundColor Red}
+         Write-host "Microsoft Graph PowerShell updated" $latestMSGraphModule.Version -ForegroundColor Green}
+    catch {Write-Host "Unable to update Microsoft Graph" -ForegroundColor Red}
 } else {
-    write-host "Latest version of Microsoft Graph is not newer than the current" -ForegroundColor yellow
+    write-host "Latest version already installed" -ForegroundColor yellow
 }
 
 $clientSecretPassword = ConvertTo-SecureString -String $clientSecret -AsPlainText -Force
