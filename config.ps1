@@ -28,22 +28,23 @@ $ErrorActionPreference = "SilentlyContinue"
 if (Get-Module -ListAvailable -Name Microsoft.Graph) {
   Import-Module -Name Microsoft.Graph
   Write-Host "Imported Microsoft.Graph Module" -ForegroundColor Green
+  <#
+  $latestMSGraphModule = Find-Module -Name Microsoft.Graph -AllVersions -AllowPrerelease | select-Object -First 1
+  $currentMSGraphModule = Get-InstalledModule | Where-Object {$_.Name -eq "Microsoft.Graph"}
+
+  If ($latestMSGraphModule.version -gt $currentMSGraphModule.version) {
+      try {Update-Module -Name Microsoft.Graph -RequiredVersion $latestMSGraphModule.version -AllowPrerelease
+          Write-host "Microsoft Graph PowerShell updated" $latestMSGraphModule.Version -ForegroundColor Green}
+      catch {Write-Host "Unable to update Microsoft Graph" -ForegroundColor Red}
+  } else {
+      write-host "Latest version already installed" -ForegroundColor yellow
+  }
+  #>
 } 
 else {
   Install-Module -Name Microsoft.Graph
   Import-Module -Name Microsoft.Graph
   Write-Host "Installed and Imported Microsoft.Graph Module" -ForegroundColor Green
-}
-
-$latestMSGraphModule = Find-Module -Name Microsoft.Graph -AllVersions -AllowPrerelease | select-Object -First 1
-$currentMSGraphModule = Get-InstalledModule | Where-Object {$_.Name -eq "Microsoft.Graph"}
-
-If ($latestMSGraphModule.version -gt $currentMSGraphModule.version) {
-    try {Update-Module -Name Microsoft.Graph -RequiredVersion $latestMSGraphModule.version -AllowPrerelease
-         Write-host "Microsoft Graph PowerShell updated" $latestMSGraphModule.Version -ForegroundColor Green}
-    catch {Write-Host "Unable to update Microsoft Graph" -ForegroundColor Red}
-} else {
-    write-host "Latest version already installed" -ForegroundColor yellow
 }
 
 $clientSecretPassword = ConvertTo-SecureString -String $clientSecret -AsPlainText -Force
